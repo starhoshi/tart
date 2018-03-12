@@ -3,16 +3,9 @@ Tart is a thin wrapper for Cloud Functions.
 
 Let's define the model and write Cloud Functions with TypesScript.
 
-# Installation
+# Sample
 
-```
-npm install @star__hoshi/tart --save
-yarn add @star__hoshi/tart
-```
-
-# Usage
-
-## Sample Cloud Functions
+You can write like this.
 
 ```ts
 exports.updateUser = functions.firestore.document('user/{userId}')
@@ -27,6 +20,15 @@ exports.updateUser = functions.firestore.document('user/{userId}')
     return undefined
 })
 ```
+
+# Installation
+
+```
+npm install @star__hoshi/tart --save
+yarn add @star__hoshi/tart
+```
+
+# Usage
 
 ## Initialize
 
@@ -55,6 +57,21 @@ interface User extends Tart.Timestamps {
 interface Game extends Tart.Timestamps {
   price: string
 }
+```
+
+## Snapshot Type
+
+Snapshot has 2 local variables.
+
+* ref
+    * DocumentReference
+* data
+    * T extends Tart.Timestamps
+
+```ts
+const user = new Tart.Snapshot<User>(snapshot)
+console.log(user.data) // => Same as snapshot.data()
+console.log(user.ref) // => Same as snapshot.ref
 ```
 
 ## Data Management
