@@ -1,10 +1,11 @@
 # tart
-Tart is a thin wrapper for Cloud Functions.
 
 [![npm version](https://badge.fury.io/js/%40star__hoshi%2Ftart.svg)](https://badge.fury.io/js/%40star__hoshi%2Ftart)
 [![Build Status](https://travis-ci.org/starhoshi/tart.svg?branch=master)](https://travis-ci.org/starhoshi/tart)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/4f8b83b6113d4627a57500f993dce372)](https://www.codacy.com/app/kensuke1751/tart?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=starhoshi/tart&amp;utm_campaign=Badge_Grade)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+
+Tart is a thin wrapper for Cloud Functions.
 
 Let's define the model and write Cloud Functions with TypesScript.
 
