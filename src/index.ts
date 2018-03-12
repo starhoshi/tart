@@ -28,7 +28,7 @@ export class Snapshot<T extends Timestamps> {
     return new Snapshot<T>(ref, data)
   }
 
-  setCreatedDate() {
+  private setCreatedDate() {
     this.data.createdAt = new Date()
     this.data.updatedAt = new Date()
   }
@@ -41,13 +41,11 @@ export class Snapshot<T extends Timestamps> {
   saveWithBatch(batch: FirebaseFirestore.WriteBatch) {
     this.setCreatedDate()
     batch.create(this.ref, this.data)
-    return batch
   }
 
-  setReferenceCollectionWithBatch(collection: string, ref: FirebaseFirestore.DocumentReference, batch: FirebaseFirestore.WriteBatch) {
+  saveReferenceCollectionWithBatch(batch: FirebaseFirestore.WriteBatch, collection: string, ref: FirebaseFirestore.DocumentReference) {
     const rc = this.ref.collection(collection).doc(ref.id)
     batch.create(rc, { createdAt: new Date(), updatedAt: new Date() })
-    return batch
   }
 
   update(data: { [id: string]: any }) {
@@ -57,6 +55,14 @@ export class Snapshot<T extends Timestamps> {
     })
     return this.ref.update(data)
   }
+
+  updateWithBatch(batch: FirebaseFirestore.WriteBatch, data: { [id: string]: any }) {
+    data.updatedAt = Date()
+    Object.keys(data).forEach(key => {
+      this.data[key] = data[key]
+    })
+    batch.update(this.ref, data)
+  }
 }
 
 export interface Timestamps {
@@ -64,8 +70,15 @@ export interface Timestamps {
   updatedAt?: Date
 }
 
-export const fetch = async <T extends Timestamps>(path: string, id: string) => {
-  const ds = await firestore.collection(path).doc(id).get()
+export const fetch = async <T extends Timestamps>(pathOrDocRef: { path: string, id: string } | FirebaseFirestore.DocumentReference) => {
+  let docPath: string = ''
+  if (pathOrDocRef instanceof FirebaseFirestore.DocumentReference) {
+    docPath = pathOrDocRef.path
+  } else {
+    docPath = `${pathOrDocRef.path}/${pathOrDocRef.id}`
+  }
+
+  const ds = await firestore.doc(docPath).get()
   if (!ds.exists) {
     throw Error(`${ds.ref.path} is not found.`)
   }
