@@ -12,6 +12,22 @@ yarn add @star__hoshi/tart
 
 # Usage
 
+## Sample Cloud Functions
+
+```ts
+exports.updateUser = functions.firestore.document('user/{userId}')
+  .onCreate(async event => {
+    const user = new Tart.Snapshot<User>(event.data)
+    console.log(user.data.name) // => old name
+    console.log(user.ref) // => DocumentReference
+
+    await user.update({ name: 'new name'})
+    console.log(user.data.name) // => new name
+
+    return undefined
+})
+```
+
 ## Initialize
 
 ```ts
@@ -39,22 +55,6 @@ interface User extends Tart.Timestamps {
 interface Game extends Tart.Timestamps {
   price: string
 }
-```
-
-## Sample Cloud Functions
-
-```ts
-exports.updateUser = functions.firestore.document('user/{userId}')
-  .onCreate(async event => {
-    const user = new Tart.Snapshot<User>(event.data)
-    console.log(user.data.name) // => old name
-    console.log(user.ref) // => DocumentReference
-
-    await user.update({ name: 'new name'})
-    console.log(user.data.name) // => new name
-
-    return undefined
-})
 ```
 
 ## Data Management
