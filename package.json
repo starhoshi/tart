@@ -1,0 +1,60 @@
+{
+  "name": "@star__hoshi/tart",
+  "version": "0.0.1",
+  "description": "A thin wrapper for Cloud Functions.",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "test": "jest",
+    "build": "tslint -p tslint.json && tsc -d",
+    "publish:patch": "yarn run build && npm version patch && git push origin master && git push origin --tags && npm publish --access=public",
+    "publish:minor": "yarn run build && npm version minor && git push origin master && git push origin --tags && npm publish --access=public",
+    "publish:major": "yarn run build && npm version major && git push origin master && git push origin --tags && npm publish --access=public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/starhoshi/tart.git"
+  },
+  "keywords": [
+    "firebase",
+    "cloudfunctions",
+    "firestore"
+  ],
+  "author": "star__hoshi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/starhoshi/tart/issues"
+  },
+  "homepage": "https://github.com/starhoshi/tart#readme",
+  "devDependencies": {
+    "@types/jest": "^22.1.4",
+    "@types/request": "^2.47.0",
+    "@types/slack-node": "^0.1.2",
+    "@types/stripe": "^5.0.7",
+    "firebase-tools": "^3.17.4",
+    "jest": "^22.4.2",
+    "rescue-fire": "^0.2.3",
+    "ts-jest": "^22.4.1",
+    "tslint": "^5.9.1",
+    "typescript": "^2.7.2"
+  },
+  "dependencies": {
+    "event-response": "^0.2.7",
+    "firebase-admin": "^5.9.1",
+    "firebase-functions": "^0.8.1",
+    "mission-completed": "^0.1.6",
+    "retrycf": "^0.2.8",
+    "stripe": "^5.5.0"
+  },
+  "jest": {
+    "transform": {
+      "\\.ts": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "src/test/.*.test.ts",
+    "moduleFileExtensions": [
+      "ts",
+      "js",
+      "json"
+    ]
+  }
+}
