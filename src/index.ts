@@ -49,7 +49,7 @@ export class Snapshot<T extends Timestamps> {
   }
 
   update(data: { [id: string]: any }) {
-    data.updatedAt = Date()
+    data.updatedAt = new Date()
     Object.keys(data).forEach(key => {
       this.data[key] = data[key]
     })
@@ -57,7 +57,7 @@ export class Snapshot<T extends Timestamps> {
   }
 
   updateWithBatch(batch: FirebaseFirestore.WriteBatch, data: { [id: string]: any }) {
-    data.updatedAt = Date()
+    data.updatedAt = new Date()
     Object.keys(data).forEach(key => {
       this.data[key] = data[key]
     })
