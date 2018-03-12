@@ -94,8 +94,8 @@ typings/
 sandbox-329fc-firebase-adminsdk.json
 .runtimeconfig.json
 firebase-debug.log
-sample-cloud-functions/functions/out
 
 # Test
+lib/test
 out/test
 .envrc
