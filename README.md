@@ -14,7 +14,15 @@ Let's define the model and write Cloud Functions with TypesScript.
 You can write like this.
 
 ```ts
-exports.updateUser = functions.firestore.document('user/{userId}')
+import * as Tart from '@star__hoshi/tart'
+
+Tart.initialize(functions.config().firebase)
+
+interface User extends Tart.Timestamps {
+  name: string
+}
+
+export const updateUser = functions.firestore.document('user/{userId}')
   .onCreate(async event => {
     const user = new Tart.Snapshot<User>(event.data)
     console.log(user.data.name) // => old name
