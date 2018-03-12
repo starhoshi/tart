@@ -39,12 +39,7 @@
     "typescript": "^2.7.2"
   },
   "dependencies": {
-    "event-response": "^0.2.7",
-    "firebase-admin": "^5.9.1",
-    "firebase-functions": "^0.8.1",
-    "mission-completed": "^0.1.6",
-    "retrycf": "^0.2.8",
-    "stripe": "^5.5.0"
+    "@google-cloud/firestore": "^0.13.0"
   },
   "jest": {
     "transform": {

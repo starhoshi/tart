@@ -52,20 +52,6 @@
   dependencies:
     tslib "^1.9.0"
 
-"@google-cloud/common-grpc@^0.5.3":
-  version "0.5.5"
-  resolved "https://registry.yarnpkg.com/@google-cloud/common-grpc/-/common-grpc-0.5.5.tgz#ca805d7bbbcf47bbd82cf603e0386e963d6f5804"
-  dependencies:
-    "@google-cloud/common" "^0.16.1"
-    dot-prop "^4.2.0"
-    duplexify "^3.5.1"
-    extend "^3.0.1"
-    grpc "~1.7.2"
-    is "^3.2.0"
-    modelo "^4.2.0"
-    retry-request "^3.3.1"
-    through2 "^2.0.3"
-
 "@google-cloud/common-grpc@^0.6.0":
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/@google-cloud/common-grpc/-/common-grpc-0.6.0.tgz#e5a561c9bcfc39e9dc97c70dfc6181856f836f5e"
@@ -78,29 +64,6 @@
     is "^3.2.0"
     modelo "^4.2.0"
     retry-request "^3.3.1"
-    through2 "^2.0.3"
-
-"@google-cloud/common@^0.15.1":
-  version "0.15.2"
-  resolved "https://registry.yarnpkg.com/@google-cloud/common/-/common-0.15.2.tgz#d8b5ba80f16b60a0ca53fc80ead4ae8b2c2e5b4a"
-  dependencies:
-    array-uniq "^1.0.3"
-    arrify "^1.0.1"
-    concat-stream "^1.6.0"
-    create-error-class "^3.0.2"
-    duplexify "^3.5.0"
-    ent "^2.2.0"
-    extend "^3.0.1"
-    google-auto-auth "^0.8.0"
-    is "^3.2.0"
-    log-driver "1.2.5"
-    methmeth "^1.1.0"
-    modelo "^4.2.0"
-    request "^2.79.0"
-    retry-request "^3.0.0"
-    split-array-stream "^1.0.0"
-    stream-events "^1.0.1"
-    string-format-obj "^1.1.0"
     through2 "^2.0.3"
 
 "@google-cloud/common@^0.16.0", "@google-cloud/common@^0.16.1":
@@ -124,20 +87,6 @@
     split-array-stream "^1.0.0"
     stream-events "^1.0.1"
     string-format-obj "^1.1.0"
-    through2 "^2.0.3"
-
-"@google-cloud/firestore@^0.11.2":
-  version "0.11.2"
-  resolved "https://registry.yarnpkg.com/@google-cloud/firestore/-/firestore-0.11.2.tgz#b511a1ec7a3b9df5cc453034b24391b0ccff9b1d"
-  dependencies:
-    "@google-cloud/common" "^0.15.1"
-    "@google-cloud/common-grpc" "^0.5.3"
-    bun "^0.0.12"
-    extend "^3.0.1"
-    functional-red-black-tree "^1.0.1"
-    google-gax "^0.14.3"
-    is "^3.2.1"
-    safe-buffer "^5.1.1"
     through2 "^2.0.3"
 
 "@google-cloud/firestore@^0.13.0":
@@ -536,10 +485,6 @@ argparse@^1.0.7:
   dependencies:
     sprintf-js "~1.0.2"
 
-arguejs@^0.2.3:
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/arguejs/-/arguejs-0.2.3.tgz#b6f939f5fe0e3cd1f3f93e2aa9262424bf312af7"
-
 arr-diff@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/arr-diff/-/arr-diff-2.0.0.tgz#8f3b827f955a8bd669697e4a4256ac3ceae356cf"
@@ -919,10 +864,6 @@ block-stream@*:
   resolved "https://registry.yarnpkg.com/block-stream/-/block-stream-0.0.9.tgz#13ebfe778a03205cfe03751481ebb4b3300c126a"
   dependencies:
     inherits "~2.0.0"
-
-bluebird@^3.5.0:
-  version "3.5.1"
-  resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.1.tgz#d9551f9de98f1fcda1e683d17ee91a0602ee2eb9"
 
 body-parser@1.18.2:
   version "1.18.2"
@@ -1872,12 +1813,6 @@ event-emitter@~0.3.5:
     d "1"
     es5-ext "~0.10.14"
 
-event-response@^0.2.7:
-  version "0.2.7"
-  resolved "https://registry.yarnpkg.com/event-response/-/event-response-0.2.7.tgz#49ebae8d95f8cf8bcee4dcbdc1db69a872507565"
-  dependencies:
-    "@google-cloud/firestore" "^0.11.2"
-
 eventemitter3@1.x.x:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-1.2.0.tgz#1c86991d816ad1e504750e73874224ecf3bec508"
@@ -2506,7 +2441,7 @@ globby@^8.0.0:
     pify "^3.0.0"
     slash "^1.0.0"
 
-google-auth-library@0.12.0, google-auth-library@^0.12.0:
+google-auth-library@0.12.0:
   version "0.12.0"
   resolved "https://registry.yarnpkg.com/google-auth-library/-/google-auth-library-0.12.0.tgz#a3fc6c296d00bb54e4d877ef581a05947330d07f"
   dependencies:
@@ -2546,15 +2481,6 @@ google-auto-auth@^0.7.2:
     google-auth-library "^0.10.0"
     request "^2.79.0"
 
-google-auto-auth@^0.8.0:
-  version "0.8.2"
-  resolved "https://registry.yarnpkg.com/google-auto-auth/-/google-auto-auth-0.8.2.tgz#928ee8954514a2ea179de8dd4e97f04d40d13d0a"
-  dependencies:
-    async "^2.3.0"
-    gcp-metadata "^0.3.0"
-    google-auth-library "^0.12.0"
-    request "^2.79.0"
-
 google-auto-auth@^0.9.0:
   version "0.9.7"
   resolved "https://registry.yarnpkg.com/google-auto-auth/-/google-auto-auth-0.9.7.tgz#70b357ec9ec8e2368cf89a659309a15a1472596b"
@@ -2563,21 +2489,6 @@ google-auto-auth@^0.9.0:
     gcp-metadata "^0.6.1"
     google-auth-library "^1.3.1"
     request "^2.79.0"
-
-google-gax@^0.14.3:
-  version "0.14.5"
-  resolved "https://registry.yarnpkg.com/google-gax/-/google-gax-0.14.5.tgz#b2c73c61df6cead94f90421d17f44ff161f623c7"
-  dependencies:
-    extend "^3.0.0"
-    globby "^7.1.1"
-    google-auto-auth "^0.9.0"
-    google-proto-files "^0.14.1"
-    grpc "~1.7.2"
-    is-stream-ended "^0.1.0"
-    lodash "^4.17.2"
-    protobufjs "^6.8.0"
-    readable-stream "^2.2.2"
-    through2 "^2.0.3"
 
 google-gax@^0.15.0:
   version "0.15.0"
@@ -2606,15 +2517,6 @@ google-p12-pem@^1.0.0:
   dependencies:
     node-forge "^0.7.4"
     pify "^3.0.0"
-
-google-proto-files@^0.14.1:
-  version "0.14.2"
-  resolved "https://registry.yarnpkg.com/google-proto-files/-/google-proto-files-0.14.2.tgz#958cffea7e8888e00b9a6c55ed1362c06b426f4c"
-  dependencies:
-    globby "^7.1.1"
-    power-assert "^1.4.4"
-    prettier "^1.10.2"
-    protobufjs "^6.8.0"
 
 google-proto-files@^0.15.0:
   version "0.15.1"
@@ -2696,16 +2598,6 @@ graceful-fs@^4.1.0, graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.6,
 growly@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/growly/-/growly-1.3.0.tgz#f10748cbe76af964b7c96c93c6bcc28af120c081"
-
-grpc@~1.7.2:
-  version "1.7.3"
-  resolved "https://registry.yarnpkg.com/grpc/-/grpc-1.7.3.tgz#c9d034324e2ec8a06cfaa577a044a116f96c8c90"
-  dependencies:
-    arguejs "^0.2.3"
-    lodash "^4.15.0"
-    nan "^2.0.0"
-    node-pre-gyp "^0.6.39"
-    protobufjs "^5.0.0"
 
 grpc@~1.9.1:
   version "1.9.1"
@@ -4173,12 +4065,6 @@ minizlib@^1.1.0:
   dependencies:
     minipass "^2.2.1"
 
-mission-completed@^0.1.6:
-  version "0.1.8"
-  resolved "https://registry.yarnpkg.com/mission-completed/-/mission-completed-0.1.8.tgz#f04883a70e4e75e1b5b04e52864dc7e370e04289"
-  dependencies:
-    "@google-cloud/firestore" "^0.11.2"
-
 mixin-deep@^1.2.0:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/mixin-deep/-/mixin-deep-1.3.1.tgz#a49e7268dce1a0d9698e45326c5626df3543d0fe"
@@ -4792,10 +4678,6 @@ preserve@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/preserve/-/preserve-0.2.0.tgz#815ed1f6ebc65926f865b310c0713bcb3315ce4b"
 
-prettier@^1.10.2:
-  version "1.11.1"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.11.1.tgz#61e43fc4cd44e68f2b0dfc2c38cd4bb0fccdcc75"
-
 pretty-format@^22.4.0:
   version "22.4.0"
   resolved "https://registry.yarnpkg.com/pretty-format/-/pretty-format-22.4.0.tgz#237b1f7e1c50ed03bc65c03ccc29d7c8bb7beb94"
@@ -5215,13 +5097,6 @@ retry-request@^3.0.0, retry-request@^3.3.1:
   dependencies:
     request "^2.81.0"
     through2 "^2.0.0"
-
-retrycf@^0.2.8:
-  version "0.2.8"
-  resolved "https://registry.yarnpkg.com/retrycf/-/retrycf-0.2.8.tgz#32ece09633950b306a4f8fa24562ab381790886b"
-  dependencies:
-    "@google-cloud/firestore" "^0.11.2"
-    firebase-functions "^0.8.1"
 
 revalidator@0.1.x:
   version "0.1.8"
@@ -5682,15 +5557,6 @@ strip-eof@^1.0.0:
 strip-json-comments@~2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-2.0.1.tgz#3c531942e908c2697c0ec344858c286c7ca0a60a"
-
-stripe@^5.5.0:
-  version "5.5.0"
-  resolved "https://registry.yarnpkg.com/stripe/-/stripe-5.5.0.tgz#df5fefae440531ae2a0051f91c7837457ba06717"
-  dependencies:
-    bluebird "^3.5.0"
-    lodash.isplainobject "^4.0.6"
-    qs "~6.5.1"
-    safe-buffer "^5.1.1"
 
 stubs@^3.0.0:
   version "3.0.0"
