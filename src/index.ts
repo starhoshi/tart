@@ -3,8 +3,8 @@ import { DeltaDocumentSnapshot } from 'firebase-functions/lib/providers/firestor
 
 let firestore: FirebaseFirestore.Firestore
 
-export const initialize = (options: { adminOptions: any, stripeToken: string }) => {
-  firestore = new FirebaseFirestore.Firestore(options.adminOptions)
+export const initialize = (adminOptions: any) => {
+  firestore = new FirebaseFirestore.Firestore(adminOptions)
 }
 
 export class Snapshot<T extends Timestamps> {
@@ -66,5 +66,8 @@ export interface Timestamps {
 
 export const fetch = async <T extends Timestamps>(path: string, id: string) => {
   const ds = await firestore.collection(path).doc(id).get()
+  if (!ds.exists) {
+    throw Error(`${ds.ref.path} is not found.`)
+  }
   return new Snapshot<T>(ds)
 }
