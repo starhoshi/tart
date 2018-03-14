@@ -17,12 +17,6 @@ beforeAll(() => {
     credential: admin.credential.cert(serviceAccount)
   })
   Tart.initialize(admin.firestore())
-  // Tart.initialize(
-  //   {
-  //     projectId: 'sandbox-329fc',
-  //     keyFilename: './sandbox-329fc-firebase-adminsdk.json'
-  //   }
-  // )
 })
 
 describe('fetch', async () => {

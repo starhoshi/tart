@@ -4,7 +4,6 @@ import { DeltaDocumentSnapshot } from 'firebase-functions/lib/providers/firestor
 let firestore: FirebaseFirestore.Firestore
 
 export const initialize = (_firestore: FirebaseFirestore.Firestore) => {
-  // firestore = new FirebaseFirestore.Firestore(adminOptions)
   firestore = _firestore
 }
 
