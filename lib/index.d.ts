@@ -1,6 +1,6 @@
 import * as FirebaseFirestore from '@google-cloud/firestore';
 import { DeltaDocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
-export declare const initialize: (adminOptions: any) => void;
+export declare const initialize: (_firestore: FirebaseFirestore.Firestore) => void;
 export declare class Snapshot<T extends Timestamps> {
     ref: FirebaseFirestore.DocumentReference;
     data: T;
