@@ -23,11 +23,6 @@ export class Snapshot<T extends Timestamps> {
     }
   }
 
-  static makeNotSavedSnapshot<T extends Timestamps>(path: string, data: T) {
-    const ref = firestore.collection(path).doc()
-    return new Snapshot<T>(ref, data)
-  }
-
   private setCreatedDate() {
     this.data.createdAt = new Date()
     this.data.updatedAt = new Date()
@@ -83,12 +78,17 @@ export interface Timestamps {
   updatedAt?: Date
 }
 
-export const fetch = async <T extends Timestamps>(pathOrDocRef: { path: string, id: string } | FirebaseFirestore.DocumentReference) => {
+export const makeNotSavedSnapshot = <T extends Timestamps>(path: string, data: T) => {
+  const ref = firestore.collection(path).doc()
+  return new Snapshot<T>(ref, data)
+}
+
+export const fetch = async <T extends Timestamps>(pathOrDocumentReference: string | FirebaseFirestore.DocumentReference, id?: string) => {
   let docPath: string = ''
-  if (pathOrDocRef instanceof FirebaseFirestore.DocumentReference) {
-    docPath = pathOrDocRef.path
+  if (typeof pathOrDocumentReference === 'string') {
+    docPath = `${pathOrDocumentReference}/${id}`
   } else {
-    docPath = `${pathOrDocRef.path}/${pathOrDocRef.id}`
+    docPath = (pathOrDocumentReference as FirebaseFirestore.DocumentReference).path
   }
 
   const ds = await firestore.doc(docPath).get()

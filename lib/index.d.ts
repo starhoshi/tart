@@ -6,7 +6,6 @@ export declare class Snapshot<T extends Timestamps> {
     data: T;
     constructor(ref: FirebaseFirestore.DocumentReference, data: T);
     constructor(snapshot: FirebaseFirestore.DocumentSnapshot | DeltaDocumentSnapshot);
-    static makeNotSavedSnapshot<T extends Timestamps>(path: string, data: T): Snapshot<T>;
     private setCreatedDate();
     save(): Promise<FirebaseFirestore.WriteResult>;
     saveWithBatch(batch: FirebaseFirestore.WriteBatch): void;
@@ -24,7 +23,5 @@ export interface Timestamps {
     createdAt?: Date;
     updatedAt?: Date;
 }
-export declare const fetch: <T extends Timestamps>(pathOrDocRef: FirebaseFirestore.DocumentReference | {
-    path: string;
-    id: string;
-}) => Promise<Snapshot<T>>;
+export declare const makeNotSavedSnapshot: <T extends Timestamps>(path: string, data: T) => Snapshot<T>;
+export declare const fetch: <T extends Timestamps>(pathOrDocumentReference: string | FirebaseFirestore.DocumentReference, id?: string | undefined) => Promise<Snapshot<T>>;

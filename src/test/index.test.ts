@@ -24,7 +24,7 @@ describe('fetch', async () => {
     test('catch error', async () => {
       expect.hasAssertions()
       try {
-        await Tart.fetch<User>({ path: 'user', id: 'id' })
+        await Tart.fetch<User>('user', 'id')
       } catch (error) {
         expect(error.message).toBeDefined()
       }
@@ -66,7 +66,7 @@ describe('Snapshot', async () => {
   describe('makeNotSavedSnapshot', () => {
     test('return not saved snapshot', async () => {
       const data: User = { name: 'test' }
-      const user = Tart.Snapshot.makeNotSavedSnapshot('user', data)
+      const user = Tart.makeNotSavedSnapshot('user', data)
 
       expect.assertions(2)
       expect(user.data).toEqual(data)
@@ -82,7 +82,7 @@ describe('Snapshot', async () => {
   describe('save', () => {
     test('save succeeded', async () => {
       const data: User = { name: 'test' }
-      const user = Tart.Snapshot.makeNotSavedSnapshot('user', data)
+      const user = Tart.makeNotSavedSnapshot('user', data)
 
       await user.save()
       const savedUser = await Tart.fetch<User>(user.ref)
@@ -97,7 +97,7 @@ describe('Snapshot', async () => {
     describe('only one saveWithBatch', () => {
       test('save succeeded', async () => {
         const data: User = { name: 'test' }
-        const user = Tart.Snapshot.makeNotSavedSnapshot('user', data)
+        const user = Tart.makeNotSavedSnapshot('user', data)
 
         const batch = admin.firestore().batch()
         user.saveWithBatch(batch)
@@ -115,8 +115,8 @@ describe('Snapshot', async () => {
       test('save succeeded', async () => {
         const userData: User = { name: 'test' }
         const gameData: Game = { price: 1000 }
-        const user = Tart.Snapshot.makeNotSavedSnapshot('user', userData)
-        const game = Tart.Snapshot.makeNotSavedSnapshot('game', gameData)
+        const user = Tart.makeNotSavedSnapshot('user', userData)
+        const game = Tart.makeNotSavedSnapshot('game', gameData)
 
         const batch = admin.firestore().batch()
         user.saveWithBatch(batch)
@@ -137,8 +137,8 @@ describe('Snapshot', async () => {
     test('save succeeded', async () => {
       const userData: User = { name: 'test' }
       const gameData: Game = { price: 1000 }
-      const user = Tart.Snapshot.makeNotSavedSnapshot('user', userData)
-      const game = Tart.Snapshot.makeNotSavedSnapshot('game', gameData)
+      const user = Tart.makeNotSavedSnapshot('user', userData)
+      const game = Tart.makeNotSavedSnapshot('game', gameData)
 
       const batch = admin.firestore().batch()
       user.saveWithBatch(batch)
@@ -153,7 +153,7 @@ describe('Snapshot', async () => {
       const gameRefColData = await gameQuerySnapshot.docs[0].data()
       expect(gameRefColData.createdAt.getTime()).toBeDefined()
       expect(gameRefColData.updatedAt!.getTime()).toBeDefined()
-      const savedGame = await Tart.fetch<Game>({ path: 'game', id: gameQuerySnapshot.docs[0].id })
+      const savedGame = await Tart.fetch<Game>('game', gameQuerySnapshot.docs[0].id)
       expect(savedGame.data).toEqual(game.data)
       expect(savedGame.ref.path).toEqual(game.ref.path)
     })
@@ -163,8 +163,8 @@ describe('Snapshot', async () => {
     test('save succeeded', async () => {
       const userData: User = { name: 'test' }
       const gameData: Game = { price: 1000 }
-      const user = Tart.Snapshot.makeNotSavedSnapshot('user', userData)
-      const game = Tart.Snapshot.makeNotSavedSnapshot('game', gameData)
+      const user = Tart.makeNotSavedSnapshot('user', userData)
+      const game = Tart.makeNotSavedSnapshot('game', gameData)
 
       const batch = admin.firestore().batch()
       user.saveWithBatch(batch)
@@ -177,7 +177,7 @@ describe('Snapshot', async () => {
       expect(savedUser.ref.path).toEqual(user.ref.path)
       const nestedGames = await savedUser.fetchNestedCollections<Game>('games')
       expect(nestedGames[0].data.price).toBe(game.data.price)
-      const savedGame = await Tart.fetch<Game>({ path: 'game', id: nestedGames[0].ref.id })
+      const savedGame = await Tart.fetch<Game>('game', nestedGames[0].ref.id)
       expect(savedGame.data).toEqual(game.data)
       expect(savedGame.ref.path).toEqual(game.ref.path)
     })
@@ -186,7 +186,7 @@ describe('Snapshot', async () => {
   describe('update', () => {
     test('update succeeded', async () => {
       const data: User = { name: 'test' }
-      const user = Tart.Snapshot.makeNotSavedSnapshot('user', data)
+      const user = Tart.makeNotSavedSnapshot('user', data)
       await user.save()
 
       await user.update({ name: 'new name' })
@@ -203,7 +203,7 @@ describe('Snapshot', async () => {
   describe('updateWithBatch', () => {
     test('update succeeded', async () => {
       const data: User = { name: 'test' }
-      const user = Tart.Snapshot.makeNotSavedSnapshot('user', data)
+      const user = Tart.makeNotSavedSnapshot('user', data)
       await user.save()
 
       const batch = admin.firestore().batch()
