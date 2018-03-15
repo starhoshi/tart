@@ -10,7 +10,9 @@ export declare class Snapshot<T extends Timestamps> {
     private setCreatedDate();
     save(): Promise<FirebaseFirestore.WriteResult>;
     saveWithBatch(batch: FirebaseFirestore.WriteBatch): void;
-    saveReferenceCollectionWithBatch(batch: FirebaseFirestore.WriteBatch, collection: string, ref: FirebaseFirestore.DocumentReference): void;
+    saveReferenceCollectionWithBatch<S extends Timestamps>(batch: FirebaseFirestore.WriteBatch, collectionName: string, snapshot: Snapshot<S>): void;
+    saveNestedCollectionWithBatch<S extends Timestamps>(batch: FirebaseFirestore.WriteBatch, collectionName: string, snapshot: Snapshot<S>): void;
+    fetchNestedCollections<S extends Timestamps>(collectionName: string): Promise<Snapshot<S>[]>;
     update(data: {
         [id: string]: any;
     }): Promise<FirebaseFirestore.WriteResult>;

@@ -43,9 +43,22 @@ export class Snapshot<T extends Timestamps> {
     batch.create(this.ref, this.data)
   }
 
-  saveReferenceCollectionWithBatch(batch: FirebaseFirestore.WriteBatch, collection: string, ref: FirebaseFirestore.DocumentReference) {
-    const rc = this.ref.collection(collection).doc(ref.id)
+  saveReferenceCollectionWithBatch<S extends Timestamps>(batch: FirebaseFirestore.WriteBatch, collectionName: string, snapshot: Snapshot<S>) {
+    const rc = this.ref.collection(collectionName).doc(snapshot.ref.id)
     batch.create(rc, { createdAt: new Date(), updatedAt: new Date() })
+  }
+
+  saveNestedCollectionWithBatch<S extends Timestamps>(batch: FirebaseFirestore.WriteBatch, collectionName: string, snapshot: Snapshot<S>) {
+    const rc = this.ref.collection(collectionName).doc(snapshot.ref.id)
+    batch.create(rc, snapshot.data)
+  }
+
+  async fetchNestedCollections<S extends Timestamps>(collectionName: string) {
+    const nc = await this.ref.collection(collectionName).get()
+    const ncs = nc.docs.map(doc => {
+      return new Snapshot<S>(doc)
+    })
+    return ncs
   }
 
   update(data: { [id: string]: any }) {

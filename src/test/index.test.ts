@@ -133,7 +133,7 @@ describe('Snapshot', async () => {
     })
   })
 
-  describe('setReferenceCollectionWithBatch', () => {
+  describe('saveReferenceCollectionWithBatch', () => {
     test('save succeeded', async () => {
       const userData: User = { name: 'test' }
       const gameData: Game = { price: 1000 }
@@ -142,7 +142,7 @@ describe('Snapshot', async () => {
 
       const batch = admin.firestore().batch()
       user.saveWithBatch(batch)
-      user.saveReferenceCollectionWithBatch(batch, 'games', game.ref)
+      user.saveReferenceCollectionWithBatch(batch, 'games', game)
       game.saveWithBatch(batch)
       await batch.commit()
 
@@ -154,6 +154,30 @@ describe('Snapshot', async () => {
       expect(gameRefColData.createdAt.getTime()).toBeDefined()
       expect(gameRefColData.updatedAt!.getTime()).toBeDefined()
       const savedGame = await Tart.fetch<Game>({ path: 'game', id: gameQuerySnapshot.docs[0].id })
+      expect(savedGame.data).toEqual(game.data)
+      expect(savedGame.ref.path).toEqual(game.ref.path)
+    })
+  })
+
+  describe('saveNestedCollectionWithBatch', () => {
+    test('save succeeded', async () => {
+      const userData: User = { name: 'test' }
+      const gameData: Game = { price: 1000 }
+      const user = Tart.Snapshot.makeNotSavedSnapshot('user', userData)
+      const game = Tart.Snapshot.makeNotSavedSnapshot('game', gameData)
+
+      const batch = admin.firestore().batch()
+      user.saveWithBatch(batch)
+      user.saveNestedCollectionWithBatch(batch, 'games', game)
+      game.saveWithBatch(batch)
+      await batch.commit()
+
+      const savedUser = await Tart.fetch(user.ref)
+      expect(savedUser.data).toEqual(user.data)
+      expect(savedUser.ref.path).toEqual(user.ref.path)
+      const nestedGames = await savedUser.fetchNestedCollections<Game>('games')
+      expect(nestedGames[0].data.price).toBe(game.data.price)
+      const savedGame = await Tart.fetch<Game>({ path: 'game', id: nestedGames[0].ref.id })
       expect(savedGame.data).toEqual(game.data)
       expect(savedGame.ref.path).toEqual(game.ref.path)
     })
