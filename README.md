@@ -48,12 +48,12 @@ yarn add @star__hoshi/tart
 
 ```ts
 import * as Tart from '@star__hoshi/tart'
+import * as admin from 'firebase-admin'
+
+admin.initializeApp(<admin.AppOptions>functions.config().firebase)
 
 // Use admin sdk
-Tart.initialize({
-  projectId: 'sandbox-329fc',
-  keyFilename: './sandbox-329fc-firebase-adminsdk.json'
-})
+Tart.initialize(admin.firestore())
 
 // on cloud functions
 Tart.initialize(functions.config().firebase)
