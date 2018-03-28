@@ -52,11 +52,8 @@ import * as admin from 'firebase-admin'
 
 admin.initializeApp(<admin.AppOptions>functions.config().firebase)
 
-// Use admin sdk
+// both admin sdk and cloud functions are same interface.
 Tart.initialize(admin.firestore())
-
-// on cloud functions
-Tart.initialize(functions.config().firebase)
 ```
 
 ## Define Interface
@@ -126,14 +123,14 @@ await batch.commit()
 Pass path or ref as argument.
 
 ```ts
-const savedUser = await Tart.fetch<User>({ path: 'user', id: 'id' })
+const savedUser = await Tart.fetch<User>('user', 'id')
 const savedUser = await Tart.fetch<User>(userDocumentReference)
 ```
 
 ### Update
 
 ```ts
-const savedUser = await Tart.fetch<User>({ path: 'user', id: 'id' })
+const savedUser = await Tart.fetch<User>('user', 'id')
 
 // Update a document
 await savedUser.update({ name: 'new name' })
@@ -147,7 +144,7 @@ await savedUser.commit()
 ### Delete
 
 ```ts
-const savedUser = await Tart.fetch<User>({ path: 'user', id: 'id' })
+const savedUser = await Tart.fetch<User>('user', 'id')
 
 // Delete a document
 await savedUser.delete()
