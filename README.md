@@ -90,7 +90,7 @@ console.log(user.ref) // => Same as snapshot.ref
 
 ## Data Management
 
-### Save (Create)
+### Save
 
 ```ts
 const data: User = { name: 'test' }
@@ -107,7 +107,7 @@ await batch.commit()
 
 ### Save Reference Collection
 
-Reference Collection's description is [here](https://github.com/1amageek/pring#nested-collection--reference-collection).
+[Reference|Nedted] Collection's description is [here](https://github.com/1amageek/pring#nested-collection--reference-collection).
 
 ```ts
 const user = Tart.Snapshot.makeNotSavedSnapshot<User>('user', { name: 'test' })
@@ -116,15 +116,12 @@ const game = Tart.Snapshot.makeNotSavedSnapshot<Game>('game', { price: 1000 })
 const batch = admin.firestore().batch()
 user.saveWithBatch(batch)
 user.saveReferenceCollectionWithBatch(batch, 'games', game.ref)
+user.saveNestedCollectionWithBatch(batch, 'nestedgames', game.ref)
 game.saveWithBatch(batch)
 await batch.commit()
 ```
 
-### Save Nested Collection
-
-TODO
-
-### Read (Get)
+### Get
 
 Pass path or ref as argument.
 
@@ -144,5 +141,18 @@ await savedUser.update({ name: 'new name' })
 // Batched writes
 savedUser.saveWithBatch(batch)
 savedUser.updateWithBatch(batch, { name: 'new name' })
+await savedUser.commit()
+```
+
+### Delete
+
+```ts
+const savedUser = await Tart.fetch<User>({ path: 'user', id: 'id' })
+
+// Delete a document
+await savedUser.delete()
+
+// Batched writes
+savedUser.deleteWithBatch(batch)
 await savedUser.commit()
 ```
