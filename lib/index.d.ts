@@ -18,6 +18,8 @@ export declare class Snapshot<T extends Timestamps> {
     updateWithBatch(batch: FirebaseFirestore.WriteBatch, data: {
         [id: string]: any;
     }): void;
+    delete(): Promise<FirebaseFirestore.WriteResult>;
+    deleteWithBatch(batch: FirebaseFirestore.WriteBatch): void;
 }
 export interface Timestamps {
     createdAt?: Date;

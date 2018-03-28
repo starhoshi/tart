@@ -218,4 +218,32 @@ describe('Snapshot', async () => {
       expect(savedUser.ref.path).toEqual(user.ref.path)
     })
   })
+
+  describe('delete', () => {
+    test('delete succeeded', async () => {
+      const data: User = { name: 'test' }
+      const user = Tart.makeNotSavedSnapshot('user', data)
+      await user.save()
+
+      await user.delete()
+
+      const deletedUser = await admin.firestore().doc(user.ref.path).get()
+      expect(deletedUser.exists).toBe(false)
+    })
+  })
+
+  describe('deleteWithBatch', () => {
+    test('update succeeded', async () => {
+      const data: User = { name: 'test' }
+      const user = Tart.makeNotSavedSnapshot('user', data)
+      await user.save()
+
+      const batch = admin.firestore().batch()
+      await user.deleteWithBatch(batch)
+      await batch.commit()
+
+      const deletedUser = await admin.firestore().doc(user.ref.path).get()
+      expect(deletedUser.exists).toBe(false)
+    })
+  })
 })

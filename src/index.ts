@@ -71,6 +71,14 @@ export class Snapshot<T extends Timestamps> {
     })
     batch.update(this.ref, data)
   }
+
+  delete() {
+    return this.ref.delete()
+  }
+
+  deleteWithBatch(batch: FirebaseFirestore.WriteBatch) {
+    batch.delete(this.ref)
+  }
 }
 
 export interface Timestamps {
