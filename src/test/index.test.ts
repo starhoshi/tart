@@ -41,6 +41,19 @@ describe('fetch', async () => {
   })
 })
 
+describe('refresh', async () => {
+  test('refresh data', async () => {
+    const user = await admin.firestore().collection('user').add({ name: 'test' })
+    const result = await Tart.fetch<User>(user)
+
+    await user.update({ name: 'refreshed' })
+    expect(result.data.name).toBe('test')
+
+    await result.refresh()
+    expect(result.data.name).toBe('refreshed')
+  })
+})
+
 describe('Snapshot', async () => {
   describe('constructor', () => {
     test('args are ref and data', async () => {

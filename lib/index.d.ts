@@ -7,6 +7,7 @@ export declare class Snapshot<T extends Timestamps> {
     constructor(ref: FirebaseFirestore.DocumentReference, data: T);
     constructor(snapshot: FirebaseFirestore.DocumentSnapshot | DeltaDocumentSnapshot);
     private setCreatedDate();
+    refresh(): Promise<void>;
     save(): Promise<FirebaseFirestore.WriteResult>;
     saveWithBatch(batch: FirebaseFirestore.WriteBatch): void;
     saveReferenceCollectionWithBatch<S extends Timestamps>(batch: FirebaseFirestore.WriteBatch, collectionName: string, snapshot: Snapshot<S>): void;

@@ -28,6 +28,10 @@ export class Snapshot<T extends Timestamps> {
     this.data.updatedAt = new Date()
   }
 
+  async refresh() {
+    this.data = await fetch<T>(this.ref).then(s => s.data)
+  }
+
   save() {
     this.setCreatedDate()
     return this.ref.create(this.data)

@@ -127,6 +127,15 @@ const savedUser = await Tart.fetch<User>('user', 'id')
 const savedUser = await Tart.fetch<User>(userDocumentReference)
 ```
 
+#### Refresh
+
+Reload the data.
+
+```ts
+const savedUser = await Tart.fetch<User>(userDocumentReference)
+await savedUser.refresh()
+```
+
 ### Update
 
 ```ts
