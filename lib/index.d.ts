@@ -1,11 +1,10 @@
 import * as FirebaseFirestore from '@google-cloud/firestore';
-import { DeltaDocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
 export declare const initialize: (_firestore: FirebaseFirestore.Firestore) => void;
 export declare class Snapshot<T extends Timestamps> {
     ref: FirebaseFirestore.DocumentReference;
     data: T;
     constructor(ref: FirebaseFirestore.DocumentReference, data: T);
-    constructor(snapshot: FirebaseFirestore.DocumentSnapshot | DeltaDocumentSnapshot);
+    constructor(snapshot: FirebaseFirestore.DocumentSnapshot);
     private setCreatedDate();
     refresh(): Promise<void>;
     save(): Promise<FirebaseFirestore.WriteResult>;

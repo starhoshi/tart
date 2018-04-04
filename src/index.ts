@@ -1,5 +1,4 @@
 import * as FirebaseFirestore from '@google-cloud/firestore'
-import { DeltaDocumentSnapshot } from 'firebase-functions/lib/providers/firestore'
 
 let firestore: FirebaseFirestore.Firestore
 
@@ -12,7 +11,7 @@ export class Snapshot<T extends Timestamps> {
   data: T
 
   constructor(ref: FirebaseFirestore.DocumentReference, data: T)
-  constructor(snapshot: FirebaseFirestore.DocumentSnapshot | DeltaDocumentSnapshot)
+  constructor(snapshot: FirebaseFirestore.DocumentSnapshot)
   constructor(a: any, b?: any) {
     if (b === null || b === undefined) {
       this.ref = a.ref
