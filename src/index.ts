@@ -53,7 +53,7 @@ export class Snapshot<T extends Timestamps> {
 
   saveNestedCollection<S extends Timestamps>(collectionName: string, snapshot: Snapshot<S>) {
     const rc = this.ref.collection(collectionName).doc(snapshot.ref.id)
-    rc.set(snapshot.data)
+    return rc.set(snapshot.data)
   }
 
   saveNestedCollectionWithBatch<S extends Timestamps>(batch: FirebaseFirestore.WriteBatch, collectionName: string, snapshot: Snapshot<S>) {
