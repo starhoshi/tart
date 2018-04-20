@@ -1,6 +1,6 @@
 {
   "name": "@star__hoshi/tart",
-  "version": "0.3.4",
+  "version": "0.4.0",
   "description": "A thin wrapper for Cloud Functions.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
