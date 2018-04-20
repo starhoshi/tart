@@ -146,6 +146,30 @@ describe('Snapshot', async () => {
     })
   })
 
+  describe('saveReferenceCollection', () => {
+    test('save succeeded', async () => {
+      const userData: User = { name: 'test' }
+      const gameData: Game = { price: 1000 }
+      const user = Tart.makeNotSavedSnapshot('user', userData)
+      const game = Tart.makeNotSavedSnapshot('game', gameData)
+
+      await user.save()
+      await user.saveReferenceCollection('games', game)
+      await game.save()
+
+      const savedUser = await Tart.fetch(user.ref)
+      expect(savedUser.data).toEqual(user.data)
+      expect(savedUser.ref.path).toEqual(user.ref.path)
+      const gameQuerySnapshot = await savedUser.ref.collection('games').get()
+      const gameRefColData = await gameQuerySnapshot.docs[0].data()
+      expect(gameRefColData.createdAt.getTime()).toBeDefined()
+      expect(gameRefColData.updatedAt!.getTime()).toBeDefined()
+      const savedGame = await Tart.fetch<Game>('game', gameQuerySnapshot.docs[0].id)
+      expect(savedGame.data).toEqual(game.data)
+      expect(savedGame.ref.path).toEqual(game.ref.path)
+    })
+  })
+
   describe('saveReferenceCollectionWithBatch', () => {
     test('save succeeded', async () => {
       const userData: User = { name: 'test' }
@@ -172,6 +196,24 @@ describe('Snapshot', async () => {
     })
   })
 
+  describe('saveNestedCollection', () => {
+    test('save succeeded', async () => {
+      const userData: User = { name: 'test' }
+      const gameData: Game = { price: 1000 }
+      const user = Tart.makeNotSavedSnapshot('user', userData)
+      const game = Tart.makeNotSavedSnapshot('game', gameData)
+
+      await user.save()
+      await user.saveNestedCollection('games', game)
+
+      const savedUser = await Tart.fetch(user.ref)
+      expect(savedUser.data).toEqual(user.data)
+      expect(savedUser.ref.path).toEqual(user.ref.path)
+      const nestedGames = await savedUser.fetchNestedCollections<Game>('games')
+      expect(nestedGames[0].data.price).toBe(game.data.price)
+    })
+  })
+
   describe('saveNestedCollectionWithBatch', () => {
     test('save succeeded', async () => {
       const userData: User = { name: 'test' }
@@ -182,7 +224,6 @@ describe('Snapshot', async () => {
       const batch = admin.firestore().batch()
       user.saveWithBatch(batch)
       user.saveNestedCollectionWithBatch(batch, 'games', game)
-      game.saveWithBatch(batch)
       await batch.commit()
 
       const savedUser = await Tart.fetch(user.ref)
@@ -190,9 +231,6 @@ describe('Snapshot', async () => {
       expect(savedUser.ref.path).toEqual(user.ref.path)
       const nestedGames = await savedUser.fetchNestedCollections<Game>('games')
       expect(nestedGames[0].data.price).toBe(game.data.price)
-      const savedGame = await Tart.fetch<Game>('game', nestedGames[0].ref.id)
-      expect(savedGame.data).toEqual(game.data)
-      expect(savedGame.ref.path).toEqual(game.ref.path)
     })
   })
 
