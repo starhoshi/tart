@@ -77,6 +77,17 @@ describe('Snapshot', async () => {
   })
 
   describe('makeNotSavedSnapshot', () => {
+    describe('with id', () => {
+      test('ref id is hoge.ref.id', async () => {
+        const hoge = admin.firestore().collection('hoge').doc()
+        const data: User = { name: 'test' }
+        const user = Tart.makeNotSavedSnapshot('user', data, hoge.id)
+
+        await user.save()
+        const savedUser = await Tart.fetch<User>(user.ref)
+        expect(savedUser.ref.id).toBe(hoge.id)
+      })
+    })
     test('return not saved snapshot', async () => {
       const data: User = { name: 'test' }
       const user = Tart.makeNotSavedSnapshot('user', data)

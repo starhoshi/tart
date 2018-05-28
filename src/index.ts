@@ -99,8 +99,11 @@ export interface Timestamps {
   updatedAt?: Date
 }
 
-export const makeNotSavedSnapshot = <T extends Timestamps>(path: string, data: T) => {
-  const ref = firestore.collection(path).doc()
+export const makeNotSavedSnapshot = <T extends Timestamps>(path: string, data: T, id?: string) => {
+  let ref = firestore.collection(path).doc()
+  if (id) {
+    ref = firestore.collection(path).doc(id)
+  }
   return new Snapshot<T>(ref, data)
 }
 

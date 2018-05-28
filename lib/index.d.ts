@@ -27,5 +27,5 @@ export interface Timestamps {
     createdAt?: Date;
     updatedAt?: Date;
 }
-export declare const makeNotSavedSnapshot: <T extends Timestamps>(path: string, data: T) => Snapshot<T>;
+export declare const makeNotSavedSnapshot: <T extends Timestamps>(path: string, data: T, id?: string | undefined) => Snapshot<T>;
 export declare const fetch: <T extends Timestamps>(pathOrDocumentReference: string | FirebaseFirestore.DocumentReference, id?: string | undefined) => Promise<Snapshot<T>>;
