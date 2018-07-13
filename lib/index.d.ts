@@ -5,6 +5,7 @@ export declare class Snapshot<T extends Timestamps> {
     data: T;
     constructor(ref: FirebaseFirestore.DocumentReference, data: T);
     constructor(snapshot: FirebaseFirestore.DocumentSnapshot);
+    readonly firestoreURL: string | undefined;
     private setCreatedDate;
     refresh(): Promise<void>;
     save(): Promise<FirebaseFirestore.WriteResult>;
