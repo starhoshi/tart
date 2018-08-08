@@ -124,6 +124,22 @@ describe('Snapshot', async () => {
       expect(savedUser.data.updatedAt!.getTime()).toBeDefined()
       expect(savedUser.ref.path).toEqual(user.ref.path)
     })
+    describe('save same id', async () => {
+      test('throwd ALREADY_EXISTS', async () => {
+        const data: User = { name: 'test' }
+        const user1 = Tart.makeNotSavedSnapshot('user', data)
+        const user2 = Tart.makeNotSavedSnapshot('user', data, user1.ref.id)
+
+        await user1.save()
+
+        expect.hasAssertions()
+        try {
+          await user2.save()
+        } catch (error) {
+          expect(error).toBeDefined()
+        }
+      })
+    })
   })
 
   describe('saveWithBatch', () => {
