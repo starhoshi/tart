@@ -1,5 +1,7 @@
 import * as FirebaseFirestore from '@google-cloud/firestore'
 
+type Partial<T> = { [P in keyof T]?: T[P]; }
+
 let firestore: FirebaseFirestore.Firestore
 
 export const initialize = (_firestore: FirebaseFirestore.Firestore) => {
@@ -77,7 +79,7 @@ export class Snapshot<T extends Timestamps> {
     return ncs
   }
 
-  update(data: { [id: string]: any }) {
+  update(data: Partial<T>) {
     data.updatedAt = new Date()
     Object.keys(data).forEach(key => {
       this.data[key] = data[key]
@@ -85,7 +87,7 @@ export class Snapshot<T extends Timestamps> {
     return this.ref.update(data)
   }
 
-  updateWithBatch(batch: FirebaseFirestore.WriteBatch, data: { [id: string]: any }) {
+  updateWithBatch(batch: FirebaseFirestore.WriteBatch, data: Partial<T>) {
     data.updatedAt = new Date()
     Object.keys(data).forEach(key => {
       this.data[key] = data[key]
