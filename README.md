@@ -16,7 +16,7 @@ You can write like this.
 ```ts
 import * as Tart from '@star__hoshi/tart'
 
-Tart.initialize(functions.config().firebase)
+Tart.initialize(admin.firestore())
 
 interface User extends Tart.Timestamps {
   name: string
