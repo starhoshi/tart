@@ -26,8 +26,8 @@ export class Snapshot<T extends Timestamps> {
 
   get firestoreURL(): string | undefined {
     const _firestore = this.ref.firestore as any
-    if (_firestore && _firestore._referencePath && _firestore._referencePath._projectId) {
-      return `https://console.firebase.google.com/project/${_firestore._referencePath._projectId}/database/firestore/data/${this.ref.path}`
+    if (_firestore && _firestore._referencePath && _firestore._referencePath.projectId) {
+      return `https://console.firebase.google.com/project/${_firestore._referencePath.projectId}/database/firestore/data/${this.ref.path}`
     }
     return undefined
   }
