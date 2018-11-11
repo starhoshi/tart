@@ -33,8 +33,8 @@ export class Snapshot<T extends Timestamps> {
   }
 
   private setCreatedDate() {
-    this.data.createdAt = new Date()
-    this.data.updatedAt = new Date()
+    this.data.createdAt = FirebaseFirestore.Timestamp.fromDate(new Date())
+    this.data.updatedAt = FirebaseFirestore.Timestamp.fromDate(new Date())
   }
 
   async refresh() {
@@ -80,7 +80,7 @@ export class Snapshot<T extends Timestamps> {
   }
 
   update(data: Partial<T>) {
-    data.updatedAt = new Date()
+    data.updatedAt = FirebaseFirestore.Timestamp.fromDate(new Date())
     Object.keys(data).forEach(key => {
       this.data[key] = data[key]
     })
@@ -88,7 +88,7 @@ export class Snapshot<T extends Timestamps> {
   }
 
   updateWithBatch(batch: FirebaseFirestore.WriteBatch, data: Partial<T>) {
-    data.updatedAt = new Date()
+    data.updatedAt = FirebaseFirestore.Timestamp.fromDate(new Date())
     Object.keys(data).forEach(key => {
       this.data[key] = data[key]
     })
@@ -105,8 +105,8 @@ export class Snapshot<T extends Timestamps> {
 }
 
 export interface Timestamps {
-  createdAt?: Date
-  updatedAt?: Date
+  createdAt?: FirebaseFirestore.Timestamp
+  updatedAt?: FirebaseFirestore.Timestamp
 }
 
 export const makeNotSavedSnapshot = <T extends Timestamps>(path: string, data: T, id?: string) => {
