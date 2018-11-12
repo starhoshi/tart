@@ -1,6 +1,8 @@
 import * as admin from 'firebase-admin'
 import * as Tart from '../index'
 import 'jest'
+import * as FirebaseFirestore from '@google-cloud/firestore'
+import * as sinon from 'sinon'
 
 interface User extends Tart.Timestamps {
   name: string
@@ -18,6 +20,10 @@ beforeAll(() => {
   })
   admin.firestore().settings({ timestampsInSnapshots: true })
   Tart.initialize(admin.firestore())
+
+  sinon.stub(FirebaseFirestore.FieldValue, 'serverTimestamp').callsFake(() => {
+    return FirebaseFirestore.Timestamp.now()
+  })
 })
 
 describe('fetch', async () => {
