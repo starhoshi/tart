@@ -44,8 +44,5 @@
       "js",
       "json"
     ]
-  },
-  "dependencies": {
-    "@google-cloud/firestore": "^0.18.0"
   }
 }
