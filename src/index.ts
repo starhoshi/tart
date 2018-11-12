@@ -32,9 +32,13 @@ export class Snapshot<T extends Timestamps> {
     return undefined
   }
 
+  private serverTimestamp() {
+    return FirebaseFirestore.FieldValue.serverTimestamp() as FirebaseFirestore.Timestamp
+  }
+
   private setCreatedDate() {
-    this.data.createdAt = FirebaseFirestore.Timestamp.fromDate(new Date())
-    this.data.updatedAt = FirebaseFirestore.Timestamp.fromDate(new Date())
+    this.data.createdAt = this.serverTimestamp()
+    this.data.updatedAt = this.serverTimestamp()
   }
 
   async refresh() {
@@ -53,12 +57,12 @@ export class Snapshot<T extends Timestamps> {
 
   saveReferenceCollection<S extends Timestamps>(collectionName: string, snapshot: Snapshot<S>) {
     const rc = this.ref.collection(collectionName).doc(snapshot.ref.id)
-    return rc.create({ createdAt: FirebaseFirestore.Timestamp.fromDate(new Date()), updatedAt: FirebaseFirestore.Timestamp.fromDate(new Date()) })
+    return rc.create({ createdAt: this.serverTimestamp, updatedAt: this.serverTimestamp })
   }
 
   saveReferenceCollectionWithBatch<S extends Timestamps>(batch: FirebaseFirestore.WriteBatch, collectionName: string, snapshot: Snapshot<S>) {
     const rc = this.ref.collection(collectionName).doc(snapshot.ref.id)
-    batch.create(rc, { createdAt: FirebaseFirestore.Timestamp.fromDate(new Date()), updatedAt: FirebaseFirestore.Timestamp.fromDate(new Date()) })
+    batch.create(rc, { createdAt: this.serverTimestamp, updatedAt: this.serverTimestamp })
   }
 
   saveNestedCollection<S extends Timestamps>(collectionName: string, snapshot: Snapshot<S>) {
@@ -80,7 +84,7 @@ export class Snapshot<T extends Timestamps> {
   }
 
   update(data: Partial<T>) {
-    data.updatedAt = FirebaseFirestore.Timestamp.fromDate(new Date())
+    data.updatedAt = this.serverTimestamp()
     Object.keys(data).forEach(key => {
       this.data[key] = data[key]
     })
@@ -88,7 +92,7 @@ export class Snapshot<T extends Timestamps> {
   }
 
   updateWithBatch(batch: FirebaseFirestore.WriteBatch, data: Partial<T>) {
-    data.updatedAt = FirebaseFirestore.Timestamp.fromDate(new Date())
+    data.updatedAt = this.serverTimestamp()
     Object.keys(data).forEach(key => {
       this.data[key] = data[key]
     })
