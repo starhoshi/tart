@@ -53,12 +53,12 @@ export class Snapshot<T extends Timestamps> {
 
   saveReferenceCollection<S extends Timestamps>(collectionName: string, snapshot: Snapshot<S>) {
     const rc = this.ref.collection(collectionName).doc(snapshot.ref.id)
-    return rc.create({ createdAt: new Date(), updatedAt: new Date() })
+    return rc.create({ createdAt: FirebaseFirestore.Timestamp.fromDate(new Date()), updatedAt: FirebaseFirestore.Timestamp.fromDate(new Date()) })
   }
 
   saveReferenceCollectionWithBatch<S extends Timestamps>(batch: FirebaseFirestore.WriteBatch, collectionName: string, snapshot: Snapshot<S>) {
     const rc = this.ref.collection(collectionName).doc(snapshot.ref.id)
-    batch.create(rc, { createdAt: new Date(), updatedAt: new Date() })
+    batch.create(rc, { createdAt: FirebaseFirestore.Timestamp.fromDate(new Date()), updatedAt: FirebaseFirestore.Timestamp.fromDate(new Date()) })
   }
 
   saveNestedCollection<S extends Timestamps>(collectionName: string, snapshot: Snapshot<S>) {
