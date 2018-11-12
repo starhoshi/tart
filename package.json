@@ -44,5 +44,6 @@
       "js",
       "json"
     ]
-  }
+  },
+  "dependencies": {}
 }

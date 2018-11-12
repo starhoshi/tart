@@ -33,8 +33,8 @@ export class Snapshot<T extends Timestamps> {
   }
 
   private setCreatedDate() {
-    this.data.createdAt = FirebaseFirestore.Timestamp.fromDate(new Date())
-    this.data.updatedAt = FirebaseFirestore.Timestamp.fromDate(new Date())
+    this.data.createdAt = FirebaseFirestore.Timestamp.now()
+    this.data.updatedAt = FirebaseFirestore.Timestamp.now()
   }
 
   async refresh() {
@@ -53,12 +53,12 @@ export class Snapshot<T extends Timestamps> {
 
   saveReferenceCollection<S extends Timestamps>(collectionName: string, snapshot: Snapshot<S>) {
     const rc = this.ref.collection(collectionName).doc(snapshot.ref.id)
-    return rc.create({ createdAt: FirebaseFirestore.Timestamp.fromDate(new Date()), updatedAt: FirebaseFirestore.Timestamp.fromDate(new Date()) })
+    return rc.create({ createdAt: FirebaseFirestore.Timestamp.now(), updatedAt: FirebaseFirestore.Timestamp.now() })
   }
 
   saveReferenceCollectionWithBatch<S extends Timestamps>(batch: FirebaseFirestore.WriteBatch, collectionName: string, snapshot: Snapshot<S>) {
     const rc = this.ref.collection(collectionName).doc(snapshot.ref.id)
-    batch.create(rc, { createdAt: FirebaseFirestore.Timestamp.fromDate(new Date()), updatedAt: FirebaseFirestore.Timestamp.fromDate(new Date()) })
+    batch.create(rc, { createdAt: FirebaseFirestore.Timestamp.now(), updatedAt: FirebaseFirestore.Timestamp.now() })
   }
 
   saveNestedCollection<S extends Timestamps>(collectionName: string, snapshot: Snapshot<S>) {
@@ -80,7 +80,7 @@ export class Snapshot<T extends Timestamps> {
   }
 
   update(data: Partial<T>) {
-    data.updatedAt = FirebaseFirestore.Timestamp.fromDate(new Date())
+    data.updatedAt = FirebaseFirestore.Timestamp.now()
     Object.keys(data).forEach(key => {
       this.data[key] = data[key]
     })
@@ -88,7 +88,7 @@ export class Snapshot<T extends Timestamps> {
   }
 
   updateWithBatch(batch: FirebaseFirestore.WriteBatch, data: Partial<T>) {
-    data.updatedAt = FirebaseFirestore.Timestamp.fromDate(new Date())
+    data.updatedAt = FirebaseFirestore.Timestamp.now()
     Object.keys(data).forEach(key => {
       this.data[key] = data[key]
     })
