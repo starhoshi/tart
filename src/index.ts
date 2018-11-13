@@ -152,6 +152,9 @@ function toOutput<T extends Timestamps>(data: T) {
 
   for (let attr in data) {
     if (data[attr] instanceof FirebaseFirestore.Timestamp) {
+      if (!data[attr]) {
+        continue
+      }
       const date = data[attr] as any as FirebaseFirestore.Timestamp
       result[attr] = date.toDate()
     } else {
