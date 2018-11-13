@@ -114,7 +114,7 @@ export const makeNotSavedSnapshot = <T extends Timestamps>(path: string, data: T
   if (id) {
     ref = firestore.collection(path).doc(id)
   }
-  return new Snapshot<T>(ref, toOutput(data))
+  return new Snapshot<T>(ref, data)
 }
 
 export const fetch = async <T extends Timestamps>(pathOrDocumentReference: string | FirebaseFirestore.DocumentReference, id?: string) => {
