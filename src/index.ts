@@ -43,7 +43,7 @@ export class Snapshot<T extends Timestamps> {
 
   save() {
     this.setCreatedDate()
-    return this.ref.create(this.data)
+    return this.ref.create(toInput(this.data))
   }
 
   saveWithBatch(batch: FirebaseFirestore.WriteBatch) {
