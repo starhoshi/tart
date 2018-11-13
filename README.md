@@ -52,9 +52,6 @@ import * as admin from 'firebase-admin'
 
 admin.initializeApp(<admin.AppOptions>functions.config().firebase)
 
-// Tart expects timestampsInSnapshots to be 'true'
-admin.firestore().settings({ timestampsInSnapshots: true })
-
 // both admin sdk and cloud functions are same interface.
 Tart.initialize(admin.firestore())
 ```
