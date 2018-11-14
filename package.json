@@ -27,6 +27,7 @@
   },
   "homepage": "https://github.com/starhoshi/tart#readme",
   "devDependencies": {
+    "@google-cloud/firestore": "^0.18.0",
     "@types/jest": "^23.1.1",
     "firebase-admin": "^6.1.0",
     "jest": "^23.1.0",
