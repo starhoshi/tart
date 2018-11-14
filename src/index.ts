@@ -17,7 +17,7 @@ export class Snapshot<T extends Timestamps> {
   constructor(a: any, b?: any) {
     if (b === null || b === undefined) {
       this.ref = a.ref
-      this.data = toOutput(a.data() as T)
+      this.data = convertToOutput(a.data() as T)
     } else {
       this.ref = a
       this.data = b
@@ -43,32 +43,32 @@ export class Snapshot<T extends Timestamps> {
 
   save() {
     this.setCreatedDate()
-    return this.ref.create(toInput(this.data))
+    return this.ref.create(converToInput(this.data))
   }
 
   saveWithBatch(batch: FirebaseFirestore.WriteBatch) {
     this.setCreatedDate()
-    batch.create(this.ref, toInput(this.data))
+    batch.create(this.ref, converToInput(this.data))
   }
 
   saveReferenceCollection<S extends Timestamps>(collectionName: string, snapshot: Snapshot<S>) {
     const rc = this.ref.collection(collectionName).doc(snapshot.ref.id)
-    return rc.create(toInput({ createdAt: new Date(), updatedAt: new Date() }))
+    return rc.create(converToInput({ createdAt: new Date(), updatedAt: new Date() }))
   }
 
   saveReferenceCollectionWithBatch<S extends Timestamps>(batch: FirebaseFirestore.WriteBatch, collectionName: string, snapshot: Snapshot<S>) {
     const rc = this.ref.collection(collectionName).doc(snapshot.ref.id)
-    batch.create(rc, toInput({ createdAt: new Date(), updatedAt: new Date() }))
+    batch.create(rc, converToInput({ createdAt: new Date(), updatedAt: new Date() }))
   }
 
   saveNestedCollection<S extends Timestamps>(collectionName: string, snapshot: Snapshot<S>) {
     const rc = this.ref.collection(collectionName).doc(snapshot.ref.id)
-    return rc.create(toInput(snapshot.data))
+    return rc.create(converToInput(snapshot.data))
   }
 
   saveNestedCollectionWithBatch<S extends Timestamps>(batch: FirebaseFirestore.WriteBatch, collectionName: string, snapshot: Snapshot<S>) {
     const rc = this.ref.collection(collectionName).doc(snapshot.ref.id)
-    batch.create(rc, toInput(snapshot.data))
+    batch.create(rc, converToInput(snapshot.data))
   }
 
   async fetchNestedCollections<S extends Timestamps>(collectionName: string) {
@@ -84,7 +84,7 @@ export class Snapshot<T extends Timestamps> {
     Object.keys(data).forEach(key => {
       this.data[key] = data[key]
     })
-    return this.ref.update(toInput(data))
+    return this.ref.update(converToInput(data))
   }
 
   updateWithBatch(batch: FirebaseFirestore.WriteBatch, data: Partial<T>) {
@@ -92,7 +92,7 @@ export class Snapshot<T extends Timestamps> {
     Object.keys(data).forEach(key => {
       this.data[key] = data[key]
     })
-    batch.update(this.ref, toInput(data))
+    batch.update(this.ref, converToInput(data))
   }
 
   delete() {
@@ -132,7 +132,7 @@ export const fetch = async <T extends Timestamps>(pathOrDocumentReference: strin
   return new Snapshot<T>(ds)
 }
 
-function toInput<T extends Timestamps>(data: T) {
+const converToInput = <T extends Timestamps>(data: T) => {
   let result: any = {}
 
   for (let attr in data) {
@@ -150,7 +150,7 @@ function toInput<T extends Timestamps>(data: T) {
   return result
 }
 
-function toOutput<T extends Timestamps>(data: T) {
+const convertToOutput = <T extends Timestamps>(data: T) => {
   let result: any = {}
 
   for (let attr in data) {

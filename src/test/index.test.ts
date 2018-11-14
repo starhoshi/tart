@@ -33,11 +33,18 @@ describe('fetch', async () => {
   })
 
   describe('exist id', async () => {
-    test('fetched', async () => {
-      const user = await admin.firestore().collection('user').add({ name: 'test' })
-      const result = await Tart.fetch<User>(user)
+    test.only('fetched', async () => {
+      const data: User = { name: 'test' }
+      const user = Tart.makeNotSavedSnapshot('user', data)
+      await user.save()
+
+      const result = await Tart.fetch<User>(user.ref)
       expect(result.data.name).toBe('test')
-      expect(result.ref.path).toBe(user.path)
+      expect(result.data.createdAt instanceof Date).toBeTruthy()
+      expect(result.data.createdAt).toBeTruthy()
+      expect(result.data.updatedAt instanceof Date).toBeTruthy()
+      expect(result.data.updatedAt).toBeTruthy()
+      expect(result.ref.path).toBe(user.ref.path)
     })
   })
 })
@@ -123,6 +130,10 @@ describe('Snapshot', async () => {
       expect(savedUser.data).toEqual(user.data)
       expect(savedUser.data.createdAt!.getTime()).toBeDefined()
       expect(savedUser.data.updatedAt!.getTime()).toBeDefined()
+      expect(savedUser.data.createdAt instanceof Date).toBeTruthy()
+      expect(savedUser.data.createdAt).toBeTruthy()
+      expect(savedUser.data.updatedAt instanceof Date).toBeTruthy()
+      expect(savedUser.data.updatedAt).toBeTruthy()
       expect(savedUser.ref.path).toEqual(user.ref.path)
     })
     describe('save same id', async () => {
