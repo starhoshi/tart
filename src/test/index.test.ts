@@ -33,7 +33,7 @@ describe('fetch', async () => {
   })
 
   describe('exist id', async () => {
-    test.only('fetched', async () => {
+    test('fetched', async () => {
       const data: User = { name: 'test' }
       const user = Tart.makeNotSavedSnapshot('user', data)
       await user.save()
