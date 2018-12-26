@@ -1,19 +1,19 @@
-import * as FirebaseFirestore from '@google-cloud/firestore'
+import * as admin from 'firebase-admin'
 
 type Partial<T> = { [P in keyof T]?: T[P]; }
 
-let firestore: FirebaseFirestore.Firestore
+let firestore: admin.firestore.Firestore
 
-export const initialize = (_firestore: FirebaseFirestore.Firestore) => {
+export const initialize = (_firestore: admin.firestore.Firestore) => {
   firestore = _firestore
 }
 
 export class Snapshot<T extends Timestamps> {
-  ref: FirebaseFirestore.DocumentReference
+  ref: admin.firestore.DocumentReference
   data: T
 
-  constructor(ref: FirebaseFirestore.DocumentReference, data: T)
-  constructor(snapshot: FirebaseFirestore.DocumentSnapshot)
+  constructor(ref: admin.firestore.DocumentReference, data: T)
+  constructor(snapshot: admin.firestore.DocumentSnapshot)
   constructor(a: any, b?: any) {
     if (b === null || b === undefined) {
       this.ref = a.ref
@@ -46,7 +46,7 @@ export class Snapshot<T extends Timestamps> {
     return this.ref.create(converToInput(this.data))
   }
 
-  saveWithBatch(batch: FirebaseFirestore.WriteBatch) {
+  saveWithBatch(batch: admin.firestore.WriteBatch) {
     this.setCreatedDate()
     batch.create(this.ref, converToInput(this.data))
   }
@@ -56,7 +56,7 @@ export class Snapshot<T extends Timestamps> {
     return rc.create(converToInput({ createdAt: new Date(), updatedAt: new Date() }))
   }
 
-  saveReferenceCollectionWithBatch<S extends Timestamps>(batch: FirebaseFirestore.WriteBatch, collectionName: string, snapshot: Snapshot<S>) {
+  saveReferenceCollectionWithBatch<S extends Timestamps>(batch: admin.firestore.WriteBatch, collectionName: string, snapshot: Snapshot<S>) {
     const rc = this.ref.collection(collectionName).doc(snapshot.ref.id)
     batch.create(rc, converToInput({ createdAt: new Date(), updatedAt: new Date() }))
   }
@@ -66,7 +66,7 @@ export class Snapshot<T extends Timestamps> {
     return rc.create(converToInput(snapshot.data))
   }
 
-  saveNestedCollectionWithBatch<S extends Timestamps>(batch: FirebaseFirestore.WriteBatch, collectionName: string, snapshot: Snapshot<S>) {
+  saveNestedCollectionWithBatch<S extends Timestamps>(batch: admin.firestore.WriteBatch, collectionName: string, snapshot: Snapshot<S>) {
     const rc = this.ref.collection(collectionName).doc(snapshot.ref.id)
     batch.create(rc, converToInput(snapshot.data))
   }
@@ -87,7 +87,7 @@ export class Snapshot<T extends Timestamps> {
     return this.ref.update(converToInput(data))
   }
 
-  updateWithBatch(batch: FirebaseFirestore.WriteBatch, data: Partial<T>) {
+  updateWithBatch(batch: admin.firestore.WriteBatch, data: Partial<T>) {
     data.updatedAt = new Date()
     Object.keys(data).forEach(key => {
       this.data[key] = data[key]
@@ -99,7 +99,7 @@ export class Snapshot<T extends Timestamps> {
     return this.ref.delete()
   }
 
-  deleteWithBatch(batch: FirebaseFirestore.WriteBatch) {
+  deleteWithBatch(batch: admin.firestore.WriteBatch) {
     batch.delete(this.ref)
   }
 }
@@ -117,12 +117,12 @@ export const makeNotSavedSnapshot = <T extends Timestamps>(path: string, data: T
   return new Snapshot<T>(ref, data)
 }
 
-export const fetch = async <T extends Timestamps>(pathOrDocumentReference: string | FirebaseFirestore.DocumentReference, id?: string) => {
+export const fetch = async <T extends Timestamps>(pathOrDocumentReference: string | admin.firestore.DocumentReference, id?: string) => {
   let docPath: string = ''
   if (typeof pathOrDocumentReference === 'string') {
     docPath = `${pathOrDocumentReference}/${id}`
   } else {
-    docPath = (pathOrDocumentReference as FirebaseFirestore.DocumentReference).path
+    docPath = (pathOrDocumentReference as admin.firestore.DocumentReference).path
   }
 
   const ds = await firestore.doc(docPath).get()
@@ -141,7 +141,7 @@ const converToInput = <T extends Timestamps>(data: T) => {
         continue
       }
       const date = data[attr] as any as Date
-      result[attr] = FirebaseFirestore.Timestamp.fromDate(date)
+      result[attr] = admin.firestore.Timestamp.fromDate(date)
     } else {
       result[attr] = data[attr]
     }
@@ -154,11 +154,11 @@ const convertToOutput = <T extends Timestamps>(data: T) => {
   let result: any = {}
 
   for (let attr in data) {
-    if (data[attr] instanceof FirebaseFirestore.Timestamp) {
+    if (data[attr] instanceof admin.firestore.Timestamp) {
       if (!data[attr]) {
         continue
       }
-      const date = data[attr] as any as FirebaseFirestore.Timestamp
+      const date = data[attr] as any as admin.firestore.Timestamp
       result[attr] = date.toDate()
     } else {
       result[attr] = data[attr]

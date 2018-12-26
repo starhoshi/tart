@@ -26,10 +26,12 @@
     "url": "https://github.com/starhoshi/tart/issues"
   },
   "homepage": "https://github.com/starhoshi/tart#readme",
+  "peerDependencies": {
+    "firebase-admin": "^6.4.0"
+  },
   "devDependencies": {
-    "@google-cloud/firestore": "^0.18.0",
+    "firebase-admin": "^6.4.0",
     "@types/jest": "^23.1.1",
-    "firebase-admin": "^6.1.0",
     "jest": "^23.1.0",
     "ts-jest": "^22.4.2",
     "tslint": "^5.9.1",
