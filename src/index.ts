@@ -1,4 +1,5 @@
 import * as admin from 'firebase-admin'
+import { convertToInput, convertToOutput } from './convertor'
 
 type Partial<T> = { [P in keyof T]?: T[P]; }
 
@@ -43,32 +44,32 @@ export class Snapshot<T extends Timestamps> {
 
   save() {
     this.setCreatedDate()
-    return this.ref.create(converToInput(this.data))
+    return this.ref.create(convertToInput(this.data))
   }
 
   saveWithBatch(batch: admin.firestore.WriteBatch) {
     this.setCreatedDate()
-    batch.create(this.ref, converToInput(this.data))
+    batch.create(this.ref, convertToInput(this.data))
   }
 
   saveReferenceCollection<S extends Timestamps>(collectionName: string, snapshot: Snapshot<S>) {
     const rc = this.ref.collection(collectionName).doc(snapshot.ref.id)
-    return rc.create(converToInput({ createdAt: new Date(), updatedAt: new Date() }))
+    return rc.create(convertToInput({ createdAt: new Date(), updatedAt: new Date() }))
   }
 
   saveReferenceCollectionWithBatch<S extends Timestamps>(batch: admin.firestore.WriteBatch, collectionName: string, snapshot: Snapshot<S>) {
     const rc = this.ref.collection(collectionName).doc(snapshot.ref.id)
-    batch.create(rc, converToInput({ createdAt: new Date(), updatedAt: new Date() }))
+    batch.create(rc, convertToInput({ createdAt: new Date(), updatedAt: new Date() }))
   }
 
   saveNestedCollection<S extends Timestamps>(collectionName: string, snapshot: Snapshot<S>) {
     const rc = this.ref.collection(collectionName).doc(snapshot.ref.id)
-    return rc.create(converToInput(snapshot.data))
+    return rc.create(convertToInput(snapshot.data))
   }
 
   saveNestedCollectionWithBatch<S extends Timestamps>(batch: admin.firestore.WriteBatch, collectionName: string, snapshot: Snapshot<S>) {
     const rc = this.ref.collection(collectionName).doc(snapshot.ref.id)
-    batch.create(rc, converToInput(snapshot.data))
+    batch.create(rc, convertToInput(snapshot.data))
   }
 
   async fetchNestedCollections<S extends Timestamps>(collectionName: string) {
@@ -84,7 +85,7 @@ export class Snapshot<T extends Timestamps> {
     Object.keys(data).forEach(key => {
       this.data[key] = data[key]
     })
-    return this.ref.update(converToInput(data))
+    return this.ref.update(convertToInput(data))
   }
 
   updateWithBatch(batch: admin.firestore.WriteBatch, data: Partial<T>) {
@@ -92,7 +93,7 @@ export class Snapshot<T extends Timestamps> {
     Object.keys(data).forEach(key => {
       this.data[key] = data[key]
     })
-    batch.update(this.ref, converToInput(data))
+    batch.update(this.ref, convertToInput(data))
   }
 
   delete() {
@@ -130,40 +131,4 @@ export const fetch = async <T extends Timestamps>(pathOrDocumentReference: strin
     throw Error(`${ds.ref.path} is not found.`)
   }
   return new Snapshot<T>(ds)
-}
-
-const converToInput = <T extends Timestamps>(data: T) => {
-  let result: any = {}
-
-  for (let attr in data) {
-    if (data[attr] instanceof Date) {
-      if (!data[attr]) {
-        continue
-      }
-      const date = data[attr] as any as Date
-      result[attr] = admin.firestore.Timestamp.fromDate(date)
-    } else {
-      result[attr] = data[attr]
-    }
-  }
-
-  return result
-}
-
-const convertToOutput = <T extends Timestamps>(data: T) => {
-  let result: any = {}
-
-  for (let attr in data) {
-    if (data[attr] instanceof admin.firestore.Timestamp) {
-      if (!data[attr]) {
-        continue
-      }
-      const date = data[attr] as any as admin.firestore.Timestamp
-      result[attr] = date.toDate()
-    } else {
-      result[attr] = data[attr]
-    }
-  }
-
-  return result
 }
